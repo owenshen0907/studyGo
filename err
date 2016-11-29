@@ -1,0 +1,37 @@
+package main
+ 
+import "fmt"
+ 
+func main(){
+    defer func(){ // 必须要先声明defer，否则不能捕获到panic异常
+        fmt.Println("c")
+        if err:=recover();err!=nil{
+            fmt.Println(err) // 这里的err其实就是panic传入的内容，55
+        }
+        fmt.Println("d")
+    }()
+    f()
+}
+ 
+func f(){
+    fmt.Println("a")
+    panic(55)
+    fmt.Println("b")
+    fmt.Println("f")
+}
+输出结果：
+a
+c
+55
+d
+exit code 0, process exited normally.
+
+程序遇到panic会直接退出并报错，
+但如果在panic之前有defer将会在遇到panic后执行defer的内容
+recover取的是panic的内容，所以可以赋给err 提示错误信息
+
+defer 推迟
+panic 恐慌
+
+recover 恢复
+
