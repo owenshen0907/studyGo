@@ -1,0 +1,8 @@
+go version --查看安装的go的版本
+go env     --查看go的配置环境
+
+
+本人的配置文件在Apple文件夹下 .bash.profile
+go包安装在/usr/local/go下
+
+
