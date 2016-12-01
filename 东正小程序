@@ -1,0 +1,14 @@
+自动跑日结·
+#判断processing_date与系统时间，保证系统时间>processing_date
+#scan start_date & end_date 替换sql脚本，执行bat自动设置节假日
+#查看节假日，确认无误执行读取dayend配置
+#dayend无误（提示关闭应用服务）
+#跑日结
+#检查当前processing_date判断日结是否成功。
+
+
+
+自动抽凭证
+自动清除中间库
+#定时任务
+#注册任务
