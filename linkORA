@@ -1,0 +1,66 @@
+// newLinkOracle project main.go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+
+	_ "github.com/jzaikovs/ora"
+)
+
+var DBdata [][]string
+
+func main() {
+	operateDB()
+
+	for i := 0; i < len(DBdata); i++ {
+		fmt.Println(DBdata[i][0])
+	}
+
+}
+func operateDB() {
+	db, err := sql.Open("ora", "dz_retail_jltest/shdzreport@//172.16.10.116:1521/sftp")
+	erro(err)
+	defer db.Close()
+	//rows, err := db.Query("select to_char(processing_dte,'yyyy-mm-dd') from processing_date")
+	rows, err := db.Query("select to_char(HOLIDAY_DTE,'yyyymmdd'),inserted_by from holiday_code where to_char(HOLIDAY_DTE,'yyyymm') between '201610' and '201612' order by holiday_dte")
+	erro(err)
+	defer rows.Close()
+	columns, err := rows.Columns()
+	fmt.Println(columns)
+	erro(err)
+	// Make a slice for the values
+	values := make([]sql.RawBytes, len(columns))
+	//scan扫描
+	// rows.Scan wants '[]interface{}' as an argument, so we must copy the
+	// references into such a slice
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+	// Fetch rows
+	for rows.Next() {
+		// get RawBytes from data
+		var tmpArr []string
+		err = rows.Scan(scanArgs...)
+		erro(err)
+
+		// Now do something with the data.
+		// Here we just print each column as a string.
+		for _, col := range values {
+			// Here we can check if the value is nil (NULL value)
+			if col == nil {
+				tmpArr = append(tmpArr, "NULL")
+			} else {
+				tmpArr = append(tmpArr, string(col))
+			}
+			DBdata = append(DBdata, tmpArr)
+			//判断value的值是否相等，触发email的发送。
+		}
+	}
+}
+func erro(err error) {
+	if err != nil {
+		fmt.Println("出错了", err)
+	}
+}
