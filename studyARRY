@@ -1,0 +1,138 @@
+// studyArr project main.go
+package main
+
+import (
+	"bytes"
+	"fmt"
+)
+
+func main() {
+	fmt.Println("Hello World!")
+	arr()
+	//Fibonacci()
+	//slice1()
+	//map1()
+	//bytes1()
+	//buffer1()
+}
+
+func arr() {
+	//初始化数组
+	var a = [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	var b = [10]int{1, 2, 3, 4, 5}
+	var c = [...]int{1, 2, 5, 7, 8}
+	var d = [10]int{2: 4, 5: 9}
+	fmt.Print(a, b, c, d)
+
+}
+func Fibonacci() {
+	var f = [20]int{1, 1}
+
+	for i := 2; i < 20; i++ {
+		f[i] = f[i-2] + f[i-1]
+	}
+	for i, v := range f {
+		if i%5 == 0 {
+			fmt.Println()
+		}
+		fmt.Print("F[", i+1, "]=", v, "\t", "\t")
+	}
+}
+
+//slice切片学习
+func slice1() {
+	var array1 = [7]string{"hello", "world", "owen", "shen", "happy", "new", "year"}
+	var slice1 []string
+	//将下标未2到6的值指向slice1
+	slice1 = array1[2:6]
+	fmt.Println("slice1", slice1)
+	//切片的遍历和使用跟数组一样
+	//不同的是切片可以动态增加删除
+	//append()可以在slice后面增加元素
+	slice2 := append(slice1, "miss", "you")
+	fmt.Println("slice2", slice2)
+	//使用make初始化slice
+	//int类型 五个元素 预留十个元素的存储空间
+	var slice3 = make([]string, 5, 10)
+	n := copy(slice3, slice2)
+	fmt.Println(n, "slice3", slice3)
+}
+
+//字典学习
+func map1() {
+	//初始化犯法一
+	var map1 map[string]int
+	map1 = make(map[string]int)
+	map1["key1"] = 1
+	fmt.Println(map1)
+	//初始化方法二
+	var map2 = map[string]int{}
+	map2["key1"] = 321
+	fmt.Println(map2)
+
+	var map3 = map[string]string{"wenhao": "How do you do?", "huida": "i am fine!"}
+	fmt.Println(map3)
+	v, ok := map3["wenhao"]
+	if ok {
+		fmt.Println(v, ok)
+	} else {
+		fmt.Println(v)
+	}
+	v, ok1 := map3["lala"]
+	if ok1 {
+		fmt.Println(v, ok1)
+	} else {
+		fmt.Println("没有键为lala的值")
+	}
+	//delete()可以用来删除键值对
+
+	//go语言的内存分配机制***************************************************
+	//new一个指针，make一个对象
+
+	//
+
+}
+
+//bytes包的应用
+//bytes包 对切片进行一系列读写比较操作,前后缀检查，位置索引，分割函数，大小写处理
+func bytes1() {
+	s := []byte("i'm a student.")
+	for _, f := range bytes.Fields(s) {
+		fmt.Printf("%q\n", f)
+	}
+	s1 := []byte("沈日新和王凤珍和沈挺是一家人.")
+	//f2是函数将需要的字符字符间隔
+	for _, f1 := range bytes.FieldsFunc(s1, f2) {
+		fmt.Printf("%q\n", f1)
+	}
+	//Split函数用于以特定符号分割字段,也可以使用fieldFunc实现。
+	//SplitAfter把分隔符座位字符填充到字段末
+	s2 := []byte("苹果,香蕉,西红柿,西瓜,黄花菜")
+	sep := []byte(",")
+	sep1 := []byte("和")
+	for _, f3 := range bytes.Split(s2, sep) {
+		fmt.Printf("%q\n", f3)
+	}
+	for _, f4 := range bytes.Split(s1, sep1) {
+		fmt.Printf("%q", f4)
+	}
+}
+func f2(a rune) bool {
+	if a == '和' {
+		return true
+	} else {
+		return false
+	}
+}
+
+//Buffer函数 缓冲区
+func buffer1() {
+	//将各种类型的数据写入缓冲区，并返回len()
+	s := "你好，中国！"
+	//创建一个空的缓冲区
+	b := bytes.NewBuffer(nil)
+	//将s写入缓冲区，并返回相应的值
+	n, err := b.WriteString(s)
+	fmt.Print(string(b.Bytes()), n, err)
+
+}
