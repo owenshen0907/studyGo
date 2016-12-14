@@ -1,0 +1,131 @@
+// 乘法表
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"math/rand"
+	"os"
+	"strconv"
+)
+
+func main() {
+	//	Select()
+		writeToFile()
+	//	GuessPrice()
+	//	sort_select()
+}
+func jisuan(){
+	var
+}
+
+//************************************编一个可以选择的要排序的数字的，还可以选择升序或者降序****
+func sort_select() {
+	var arr = [7]int{5, 1, 2, 3, 6, 8, 9}
+
+	for i := 0; i < 7; i++ {
+		temp := 0
+		flag := i //报存最下值得下标
+		for j := i + 1; j < 7; j++ {
+			if arr[flag] > arr[j] {
+				flag = j
+			}
+		}
+		temp = arr[flag]
+		arr[flag] = arr[i]
+		arr[i] = temp
+	}
+	fmt.Println(arr)
+	fmt.Println("最大的;", arr[6])
+	fmt.Println("最小的是：", arr[0])
+
+}
+func GuessPrice() {
+	var Guess_pri, Guess_num int
+	Guess_pri = rand.Intn(100)
+	fmt.Println("****请输入你猜的价格0-100****")
+
+	for i := 1; i <= 100; i++ {
+		fmt.Scan(&Guess_num)
+		if Guess_num == Guess_pri {
+			fmt.Println("恭喜你才对价格了")
+			break
+		} else if Guess_num < Guess_pri {
+			fmt.Println("你低估价格了0.0")
+			continue
+		} else if Guess_num > Guess_pri {
+			fmt.Println("瞎猜，哪有那么贵0.0")
+			continue
+		}
+	}
+
+}
+
+func Select() {
+	var a, b int
+	println("*****Muliplication_table*****")
+HERE:
+	println("*****请输入乘法表的大小*****")
+	fmt.Scan(&a)
+	Muliplication_table(a)
+HERE2:
+	println("*****退出请按1：继续计算请按2*****")
+	fmt.Scan(&b)
+	if a != 1 && a != 2 {
+		fmt.Println("请输入正确的值")
+		goto HERE2
+	} else if b == 1 {
+		fmt.Print("程序正在退出。。。。")
+		os.Exit(-1)
+	} else if b == 2 {
+		goto HERE
+	}
+}
+func Muliplication_table(b int) {
+
+	var i, j, MUT int
+	for i = 1; i <= b; i++ {
+
+		for j = 1; j <= i; j++ {
+			MUT = i * j
+			fmt.Print(j, "X", i, "=", MUT, "\t")
+		}
+		fmt.Println()
+	}
+}
+
+func writeToFile() {
+	outputFile, outputError := os.OpenFile("output.txt", os.O_WRONLY|os.O_CREATE, 0666)
+	if outputError != nil {
+		fmt.Printf("An error occurred with file opening or creation\n")
+		return
+	}
+	defer outputFile.Close()
+
+	outputWriter := bufio.NewWriter(outputFile)
+	var i, j, MUT int
+	for i = 1; i <= 9; i++ {
+
+		for j = 1; j <= i; j++ {
+			MUT = i * j
+
+			fmt.Print(j, "X", i, "=", MUT, "\t")
+			var str1 string = strconv.Itoa(i)
+			var str2 string = strconv.Itoa(j)
+			var str3 string = strconv.Itoa(MUT)
+
+			outputWriter.WriteString(str2 + "X" + str1 + "=" + str3 + "\t")
+			//			outputWriter.WriteString("X")
+			//			outputWriter.WriteString(str1)
+			//			outputWriter.WriteString("=")
+			//			outputWriter.WriteString(str3)
+			//			outputWriter.WriteString("\t")
+		}
+
+		fmt.Println()
+
+		outputWriter.WriteString("\r\n")
+	}
+
+	outputWriter.Flush()
+}
