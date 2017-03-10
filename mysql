@@ -1,4 +1,23 @@
-主键，外健都属于约束的一种。
-主键：独一无二，NOT NULL
-外健：引用其他的表的数据，外健所在表有数据，则本条记录无法删除。
 
+
+#主键，外健都属于约束的一种。
+#主键：独一无二，NOT NULL
+外健：引用其他的表的数据，外健所在表有数据，则本条记录无法删除。
+加外健约束
+
+       要加外健约束的表名
+ALTER TABLE article     约束名                          外健的名
+   ADD CONSTRAINT `fk_relationship_art_tag` FOREIGN KEY(tag_id)
+                 外健所在表的名和列名
+       REFERENCES tag(`tag_id`)
+插入数据
+insert into class (cls_content,class_id ) values( "习题答案",'2');
+
+查看列：desc 表名;
+修改表名：alter table t_book rename to bbb;
+添加列：alter table 表名 add column 列名 varchar(30);
+删除列：alter table 表名 drop column 列名;
+修改列名MySQL： alter table bbb change nnnnn hh int;
+修改列名SQLServer：exec sp_rename't_student.name','nn','column';
+修改列名Oracle：lter table bbb rename column nnnnn to hh int;
+修改列属性：alter table t_book modify name varchar(22);
