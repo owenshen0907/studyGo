@@ -21,3 +21,6 @@ insert into class (cls_content,class_id ) values( "习题答案",'2');
 修改列名SQLServer：exec sp_rename't_student.name','nn','column';
 修改列名Oracle：lter table bbb rename column nnnnn to hh int;
 修改列属性：alter table t_book modify name varchar(22);
+
+添加自增熟悉，要先删掉相关约束
+alter table class modify class_id integer auto_increment ; 
